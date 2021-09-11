@@ -27,6 +27,18 @@ function App() {
     setuserInput('');
   }
 
+  //delete item
+  const deleteItem = (e) => {
+    //we need to use event.currentTarget because inside button we have icon from 'react-icons' and if we click on icon
+    //we will not get id, with currentTarget we will allways get our button with event listener
+    const target = e.currentTarget;
+    //filter our state list and delete item from there with same id
+    const newList = list.filter(item => item.id !== target.id);
+    //set updated list
+    console.log(target.id);
+    console.log(newList);
+    setList(newList);
+  }
 
 
 
@@ -48,7 +60,7 @@ function App() {
                 <p className="title">{item.body}</p>
                 <div className="btn-container">
                   <button type='button' className='edit-btn'><AiFillEdit /></button>
-                  <button id={item.id} className="delete-btn" type='button'><FaTrash /></button>
+                  <button onClick={deleteItem} id={item.id} className="delete-btn" type='button'><FaTrash /></button>
                 </div>
               </article>
             )
