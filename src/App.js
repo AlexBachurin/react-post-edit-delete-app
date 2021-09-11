@@ -1,9 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Form from './Form';
 import List from './List';
+//get items from local storage on page load
+const getLocalStorage = () => {
+  let list = localStorage.getItem('list');
+  if (list) {
+    return (list = JSON.parse(localStorage.getItem('list')));
+  } else {
+    return [];
+  }
+};
 function App() {
   //setup list to store our items
-  const [list, setList] = useState([]);
+  const [list, setList] = useState(getLocalStorage());
   //store userinput
   const [userInput, setUserInput] = useState('');
   //editing boolean
@@ -21,18 +30,22 @@ function App() {
   const submitHandler = (e) => {
     e.preventDefault();
     if (isEdit) {
-      //find editing item in our list and return a new list with edited item
-      const newList = list.map(item => {
-        return item.id === itemToEdit.id ? { ...item, body: userInput } : item
-      })
-      //and set it to state to display
-      setList(newList);
-      //disable edit state
-      setIsEdit(false);
-      //clear input
-      setUserInput('');
-      //set alert
-      showAlert(true, "add", "Post Edited Successfully")
+      if (userInput.length === 0) {
+        showAlert(true, 'delete', 'Please Write Something')
+      } else {
+        //find editing item in our list and return a new list with edited item
+        const newList = list.map(item => {
+          return item.id === itemToEdit.id ? { ...item, body: userInput } : item
+        })
+        //and set it to state to display
+        setList(newList);
+        //disable edit state
+        setIsEdit(false);
+        //clear input
+        setUserInput('');
+        //set alert
+        showAlert(true, "add", "Post Edited Successfully")
+      }
 
     }
     else {
@@ -105,6 +118,11 @@ function App() {
   const removeAlert = () => {
     setAlert(false, '', '')
   }
+
+  //set items to local storage on every list change
+  useEffect(() => {
+    localStorage.setItem('list', JSON.stringify(list));
+  }, [list]);
 
   return (
     <section className='section-center'>
