@@ -101,10 +101,14 @@ function App() {
   const showAlert = (show = false, type = '', msg = '') => {
     setAlert({ show, type, msg });
   };
+  //remove alert message 
+  const removeAlert = () => {
+    setAlert(false, '', '')
+  }
 
   return (
     <section className='section-center'>
-      <Form alert={alert} submitHandler={submitHandler} userInput={userInput} isEdit={isEdit} inputHandler={inputHandler} />
+      <Form list={list} alert={alert} removeAlert={removeAlert} submitHandler={submitHandler} userInput={userInput} isEdit={isEdit} inputHandler={inputHandler} />
       <div className="post-container">
         <div className="post-list">
           {/* display list */}
