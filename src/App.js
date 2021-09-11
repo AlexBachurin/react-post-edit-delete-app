@@ -5,27 +5,48 @@ function App() {
   //setup list to store our items
   const [list, setList] = useState([]);
   //store userinput
-  const [userInput, setuserInput] = useState('');
+  const [userInput, setUserInput] = useState('');
+  //editing boolean
+  const [isEdit, setIsEdit] = useState(false)
+  //item to edit
+  const [itemToEdit, setItemToEdit] = useState({})
 
 
   //on input change
   const inputHandler = (e) => {
-    setuserInput(e.target.value);
+    setUserInput(e.target.value);
   }
   //submit
   const submitHandler = (e) => {
     e.preventDefault();
-    //create new post as an object with a unique id and body of userinput
-    //!!important to use toString() so we wont get object back as a uniq id
-    const newPost = { id: new Date().getTime().toString() + Math.random(), body: userInput }
+    if (isEdit) {
+      //find editing item in our list and return a new list with edited item
+      const newList = list.map(item => {
+        return item.id === itemToEdit.id ? { ...item, body: userInput } : item
+      })
+      //and set it to state to display
+      console.log(newList);
+      setList(newList);
+      //disable edit state
+      setIsEdit(false);
+      //clear input
+      setUserInput('');
 
-    //add user input in our list in state
-    setList((list) => {
-      return [...list, newPost];
-    })
-    //clear input
-    setuserInput('');
+    }
+    else {
+      //create new post as an object with a unique id and body of userinput
+      //!!important to use toString() so we wont get object back as a uniq id
+      const newPost = { id: new Date().getTime().toString() + Math.random(), body: userInput }
+
+      //add user input in our list in state
+      setList((list) => {
+        return [...list, newPost];
+      })
+      //clear input
+      setUserInput('');
+    }
   }
+
 
   //delete item
   const deleteItem = (e) => {
@@ -35,12 +56,19 @@ function App() {
     //filter our state list and delete item from there with same id
     const newList = list.filter(item => item.id !== target.id);
     //set updated list
-    console.log(target.id);
-    console.log(newList);
     setList(newList);
   }
 
-
+  //Edit item
+  const editItem = (e) => {
+    const target = e.currentTarget;
+    setIsEdit(true)
+    const editItem = list.filter(item => item.id === target.id);
+    //use spread so we wont get array as item
+    setItemToEdit(...editItem)
+    //set in input edited item body
+    setUserInput(editItem[0].body);
+  }
 
   return (
     <section className='section-center'>
@@ -48,7 +76,8 @@ function App() {
         <h3>Post here!</h3>
         <div className="form-control">
           <input value={userInput} onChange={inputHandler} type="text" className="post" placeholder='e.g. Bunny' />
-          <button type='submit' className='submit-btn'>submit </button>
+          {/* if isEdit is true we display text 'Edit' else 'Submit' */}
+          <button type='submit' className='submit-btn'>{isEdit ? 'edit' : 'submit'} </button>
         </div>
       </form>
       <div className="post-container">
@@ -59,7 +88,7 @@ function App() {
               <article key={item.id} className="post-item">
                 <p className="title">{item.body}</p>
                 <div className="btn-container">
-                  <button type='button' className='edit-btn'><AiFillEdit /></button>
+                  <button onClick={editItem} id={item.id} type='button' className='edit-btn'><AiFillEdit /></button>
                   <button onClick={deleteItem} id={item.id} className="delete-btn" type='button'><FaTrash /></button>
                 </div>
               </article>
