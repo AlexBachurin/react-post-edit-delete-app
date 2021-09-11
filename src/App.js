@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { FaTrash } from 'react-icons/fa'
-import { AiFillEdit } from 'react-icons/ai'
+import { AiFillEdit, AiFillLike, AiFillHeart } from 'react-icons/ai'
 function App() {
   //setup list to store our items
   const [list, setList] = useState([]);
@@ -25,7 +25,6 @@ function App() {
         return item.id === itemToEdit.id ? { ...item, body: userInput } : item
       })
       //and set it to state to display
-      console.log(newList);
       setList(newList);
       //disable edit state
       setIsEdit(false);
@@ -36,7 +35,7 @@ function App() {
     else {
       //create new post as an object with a unique id and body of userinput
       //!!important to use toString() so we wont get object back as a uniq id
-      const newPost = { id: new Date().getTime().toString() + Math.random(), body: userInput }
+      const newPost = { id: new Date().getTime().toString() + Math.random(), body: userInput, liked: false }
 
       //add user input in our list in state
       setList((list) => {
@@ -75,6 +74,20 @@ function App() {
     setList([]);
   }
 
+  //Like Item
+  const likeItem = (e) => {
+    const target = e.currentTarget;
+
+    //find clicked item by id and return changed new list with changed item property in it
+    //toggle item.liked property depending in which state it is right now
+    const newList = list.map(item => {
+      return item.id === target.id ? { ...item, liked: !item.liked } : item;
+    })
+
+    setList(newList);
+
+  }
+
   return (
     <section className='section-center'>
       <form onSubmit={submitHandler} action="" className="post-form">
@@ -90,11 +103,16 @@ function App() {
           {/* display list */}
           {list.map((item) => {
             return (
-              <article key={item.id} className="post-item">
-                <p className="title">{item.body}</p>
+              <article key={item.id} className='post-item'>
+                <div className="post-title">
+                  <p className="title">{item.body}</p>
+                  <span className={item.liked ? 'show-like' : 'hide-like'}><AiFillHeart /></span>
+
+                </div>
                 <div className="btn-container">
                   <button onClick={editItem} id={item.id} type='button' className='edit-btn'><AiFillEdit /></button>
                   <button onClick={deleteItem} id={item.id} className="delete-btn" type='button'><FaTrash /></button>
+                  <button onClick={likeItem} id={item.id} type='button' className='like-btn'><AiFillLike /></button>
                 </div>
               </article>
             )
