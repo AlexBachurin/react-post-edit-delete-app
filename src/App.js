@@ -7,6 +7,7 @@ function App() {
   //store userinput
   const [userInput, setuserInput] = useState('');
 
+
   //on input change
   const inputHandler = (e) => {
     setuserInput(e.target.value);
@@ -14,13 +15,17 @@ function App() {
   //submit
   const submitHandler = (e) => {
     e.preventDefault();
+    //create new post as an object with a unique id and body of userinput
+    const newPost = { id: new Date().getTime() + Math.random(), body: userInput }
+
     //add user input in our list in state
     setList((list) => {
-      return [...list, userInput]
+      return [...list, newPost];
     })
     //clear input
     setuserInput('');
   }
+
 
   return (
     <section className='section-center'>
@@ -34,13 +39,13 @@ function App() {
       <div className="post-container">
         <div className="post-list">
           {/* display list */}
-          {list.map(item => {
+          {list.map((item) => {
             return (
-              <article key={new Date().getTime() + Math.random()} className="post-item">
-                <p className="title">{item}</p>
+              <article key={item.id} className="post-item">
+                <p className="title">{item.body}</p>
                 <div className="btn-container">
                   <button type='button' className='edit-btn'><AiFillEdit /></button>
-                  <button className="delete-btn" type='button'><FaTrash /></button>
+                  <button id={item.id} className="delete-btn" type='button'><FaTrash /></button>
                 </div>
               </article>
             )
