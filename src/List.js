@@ -7,7 +7,7 @@ export default function List(props) {
         <>
             {props.list.map((item) => {
                 return (
-                    <ListItem item={item}  {...props} />
+                    <ListItem key={item.id} item={item}  {...props} />
                 )
             })}
             <button onClick={props.clearList} type='button' className='clear-btn'>clear All</button>

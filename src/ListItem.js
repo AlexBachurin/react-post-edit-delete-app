@@ -4,7 +4,7 @@ import { AiFillEdit, AiFillLike, AiFillHeart } from 'react-icons/ai'
 export default function ListItem({ item, editItem, deleteItem, likeItem }) {
     return (
         <div>
-            <article key={item.id} className='post-item'>
+            <article className='post-item'>
                 <div className="post-title">
                     <p className="title">{item.body}</p>
                     <span className={item.liked ? 'show-like' : 'hide-like'}><AiFillHeart /></span>
