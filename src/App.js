@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { FaTrash } from 'react-icons/fa'
-import { AiFillEdit, AiFillLike, AiFillHeart } from 'react-icons/ai'
+import React, { useState } from 'react'
+import Form from './Form';
+import List from './List';
 function App() {
   //setup list to store our items
   const [list, setList] = useState([]);
@@ -90,35 +90,11 @@ function App() {
 
   return (
     <section className='section-center'>
-      <form onSubmit={submitHandler} action="" className="post-form">
-        <h3>Post here!</h3>
-        <div className="form-control">
-          <input value={userInput} onChange={inputHandler} type="text" className="post" placeholder='e.g. Bunny' />
-          {/* if isEdit is true we display text 'Edit' else 'Submit' */}
-          <button type='submit' className='submit-btn'>{isEdit ? 'edit' : 'submit'} </button>
-        </div>
-      </form>
+      <Form submitHandler={submitHandler} userInput={userInput} isEdit={isEdit} inputHandler={inputHandler} />
       <div className="post-container">
         <div className="post-list">
           {/* display list */}
-          {list.map((item) => {
-            return (
-              <article key={item.id} className='post-item'>
-                <div className="post-title">
-                  <p className="title">{item.body}</p>
-                  <span className={item.liked ? 'show-like' : 'hide-like'}><AiFillHeart /></span>
-
-                </div>
-                <div className="btn-container">
-                  <button onClick={editItem} id={item.id} type='button' className='edit-btn'><AiFillEdit /></button>
-                  <button onClick={deleteItem} id={item.id} className="delete-btn" type='button'><FaTrash /></button>
-                  <button onClick={likeItem} id={item.id} type='button' className='like-btn'><AiFillLike /></button>
-                </div>
-              </article>
-            )
-          })}
-
-          <button onClick={clearList} type='button' className='clear-btn'>clear All</button>
+          <List list={list} deleteItem={deleteItem} editItem={editItem} likeItem={likeItem} clearList={clearList} />
         </div>
       </div>
     </section>
