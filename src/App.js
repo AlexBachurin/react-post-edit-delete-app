@@ -70,6 +70,11 @@ function App() {
     setUserInput(editItem[0].body);
   }
 
+  //clear ALL
+  const clearList = () => {
+    setList([]);
+  }
+
   return (
     <section className='section-center'>
       <form onSubmit={submitHandler} action="" className="post-form">
@@ -95,7 +100,7 @@ function App() {
             )
           })}
 
-          <button type='button' className='clear-btn'>clear All</button>
+          <button onClick={clearList} type='button' className='clear-btn'>clear All</button>
         </div>
       </div>
     </section>
