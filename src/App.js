@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React from 'react'
+import { FaTrash } from 'react-icons/fa'
+import { AiFillEdit } from 'react-icons/ai'
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <section className='section-center'>
+      <form action="" className="post-form">
+        <h3>Post here!</h3>
+        <div className="form-control">
+          <input type="text" className="post" placeholder='e.g. Bunny' />
+          <button type='submit' className='submit-btn'>submit </button>
+        </div>
+      </form>
+      <div className="post-container">
+        <div className="post-list">
+          <article className="post-item">
+            <p className="title">Nails</p>
+            <div className="btn-container">
+              <button type='button' className='edit-btn'><AiFillEdit /></button>
+              <button className="delete-btn" type='button'><FaTrash /></button>
+            </div>
+          </article>
+          <article className="post-item">
+            <p className="title">Fluffs</p>
+            <div className="btn-container">
+              <button type='button' className='edit-btn'><AiFillEdit /></button>
+              <button className="delete-btn" type='button'><FaTrash /></button>
+            </div>
+          </article>
+          <button type='button' className='clear-btn'>clear All</button>
+        </div>
+      </div>
+    </section>
   );
 }
 
