@@ -184,11 +184,11 @@ post List
   letter-spacing: var(--spacing);
   text-transform: capitalize;
 }
-.alert-danger {
+.alert-delete {
   color: #721c24;
   background: #f8d7da;
 }
-.alert-success {
+.alert-add {
   color: #155724;
   background: #d4edda;
 }

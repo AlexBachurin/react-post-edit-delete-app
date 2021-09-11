@@ -10,7 +10,8 @@ function App() {
   const [isEdit, setIsEdit] = useState(false)
   //item to edit
   const [itemToEdit, setItemToEdit] = useState({})
-
+  //alert state
+  const [alert, setAlert] = useState({ show: false, type: '', msg: '' })
 
   //on input change
   const inputHandler = (e) => {
@@ -30,19 +31,28 @@ function App() {
       setIsEdit(false);
       //clear input
       setUserInput('');
+      //set alert
+      showAlert(true, "add", "Post Edited Successfully")
 
     }
     else {
-      //create new post as an object with a unique id and body of userinput
-      //!!important to use toString() so we wont get object back as a uniq id
-      const newPost = { id: new Date().getTime().toString() + Math.random(), body: userInput, liked: false }
+      //if user didnt write anything show alert
+      if (userInput.length === 0) {
+        showAlert(true, 'delete', 'Please Write Something')
+      } else {
+        //create new post as an object with a unique id and body of userinput
+        //!!important to use toString() so we wont get object back as a uniq id
+        const newPost = { id: new Date().getTime().toString() + Math.random(), body: userInput, liked: false }
 
-      //add user input in our list in state
-      setList((list) => {
-        return [...list, newPost];
-      })
-      //clear input
-      setUserInput('');
+        //add user input in our list in state
+        setList((list) => {
+          return [...list, newPost];
+        })
+        //clear input
+        setUserInput('');
+        showAlert(true, "add", "Post Added Sucessfully")
+      }
+
     }
   }
 
@@ -56,6 +66,7 @@ function App() {
     const newList = list.filter(item => item.id !== target.id);
     //set updated list
     setList(newList);
+    showAlert(true, "delete", "Post Removed Sucessfully")
   }
 
   //Edit item
@@ -72,6 +83,7 @@ function App() {
   //clear ALL
   const clearList = () => {
     setList([]);
+    showAlert(true, "delete", 'Deleted All Posts')
   }
 
   //Like Item
@@ -83,14 +95,16 @@ function App() {
     const newList = list.map(item => {
       return item.id === target.id ? { ...item, liked: !item.liked } : item;
     })
-
     setList(newList);
-
   }
+  //show alert message
+  const showAlert = (show = false, type = '', msg = '') => {
+    setAlert({ show, type, msg });
+  };
 
   return (
     <section className='section-center'>
-      <Form submitHandler={submitHandler} userInput={userInput} isEdit={isEdit} inputHandler={inputHandler} />
+      <Form alert={alert} submitHandler={submitHandler} userInput={userInput} isEdit={isEdit} inputHandler={inputHandler} />
       <div className="post-container">
         <div className="post-list">
           {/* display list */}
