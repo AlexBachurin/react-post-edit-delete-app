@@ -1,6 +1,6 @@
 import React from 'react'
 import { FaTrash } from 'react-icons/fa'
-import { AiFillEdit, AiFillLike, AiFillHeart } from 'react-icons/ai'
+import { AiFillEdit, AiFillLike, AiFillHeart, AiFillDislike } from 'react-icons/ai'
 export default function ListItem({ item, editItem, deleteItem, likeItem }) {
     return (
         <div>
@@ -13,7 +13,7 @@ export default function ListItem({ item, editItem, deleteItem, likeItem }) {
                 <div className="btn-container">
                     <button onClick={editItem} id={item.id} type='button' className='edit-btn'><AiFillEdit /></button>
                     <button onClick={deleteItem} id={item.id} className="delete-btn" type='button'><FaTrash /></button>
-                    <button onClick={likeItem} id={item.id} type='button' className='like-btn'><AiFillLike /></button>
+                    <button onClick={likeItem} id={item.id} type='button' className='like-btn'>{item.liked ? <AiFillDislike /> : <AiFillLike />}</button>
                 </div>
             </article>
         </div>
