@@ -16,7 +16,8 @@ function App() {
   const submitHandler = (e) => {
     e.preventDefault();
     //create new post as an object with a unique id and body of userinput
-    const newPost = { id: new Date().getTime() + Math.random(), body: userInput }
+    //!!important to use toString() so we wont get object back as a uniq id
+    const newPost = { id: new Date().getTime().toString() + Math.random(), body: userInput }
 
     //add user input in our list in state
     setList((list) => {
@@ -25,6 +26,8 @@ function App() {
     //clear input
     setuserInput('');
   }
+
+
 
 
   return (
