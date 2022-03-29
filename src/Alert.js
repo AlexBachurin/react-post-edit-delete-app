@@ -8,6 +8,7 @@ export default function Alert({ alert, removeAlert, list }) {
         return () => {
             clearTimeout(alertId)
         }
+        //eslint-disable-next-line
     }, [list])
     return (
         <p className={`alert alert-${alert.type}`}>{alert.msg}</p>
